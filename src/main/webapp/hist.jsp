@@ -8,7 +8,6 @@
 <ul>
     <c:forEach var="attribute" items="${requestScope.attribute}">
         <li> <c:out value="${attribute}"/>
-            <c:out value="${requestScope.time}"/>
         </li>
     </c:forEach>
 </ul>
