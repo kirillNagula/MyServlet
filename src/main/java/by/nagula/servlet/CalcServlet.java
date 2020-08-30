@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 @WebServlet(urlPatterns = "/calculation")
 public class CalcServlet extends HttpServlet {
@@ -17,6 +18,12 @@ public class CalcServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getSession().setAttribute("Calc", "Calc");
+        req.getRequestDispatcher("/calc.jsp").forward(req,resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         String num1 = req.getParameter("num1");
         String num2 = req.getParameter("num2");
@@ -24,9 +31,8 @@ public class CalcServlet extends HttpServlet {
         double result = 0;
         try {
             result = calcService.calc(Double.parseDouble(num1), Double.parseDouble(num2), type);
-            resp.getWriter().println("<h1>" + result + "</h1>");
-        } catch (WrongTypeException e) {
-           resp.getWriter().println("<h1>" + e.getMessage() + "</h1>");
+            req.setAttribute("result", result);
+            req.getRequestDispatcher("/calc.jsp").forward(req,resp);
         } catch (DivisionByZeroException e) {
             resp.getWriter().println("<h1>" + e.getMessage() + "</h1>");
         }

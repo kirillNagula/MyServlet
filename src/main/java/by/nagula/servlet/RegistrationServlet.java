@@ -14,6 +14,11 @@ import java.util.List;
 public class RegistrationServlet extends HttpServlet {
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/reg.jsp").forward(req,resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String login = req.getParameter("login");
@@ -23,6 +28,8 @@ public class RegistrationServlet extends HttpServlet {
 
         List<User> users = (List<User>) req.getServletContext().getAttribute("users");
         users.add(user);
+
+        resp.sendRedirect("/");
 
     }
 }
