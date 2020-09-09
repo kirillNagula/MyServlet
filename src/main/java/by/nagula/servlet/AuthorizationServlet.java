@@ -1,13 +1,15 @@
 package by.nagula.servlet;
 
 import by.nagula.entity.User;
+import by.nagula.exception.UserNotFoundException;
+import by.nagula.service.UserServiceImpl;
 
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.List;
+import java.sql.Connection;
 
 @WebServlet(urlPatterns = "/auth")
 public class AuthorizationServlet extends HttpServlet {
@@ -21,16 +23,14 @@ public class AuthorizationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-
-        List<User> users = (List<User>) req.getServletContext().getAttribute("users");
-
-        for (User user : users) {
-            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
-                req.getSession().setAttribute("user", user);
-                resp.sendRedirect("/");
-            } else
-                req.getRequestDispatcher("/auth.jsp").forward(req,resp);
+        try {
+            User user = UserServiceImpl.getInstance((Connection) req.getSession().getAttribute("connection")).getUserByLogin(login);
+            req.getSession().setAttribute("user", user);
+        } catch (UserNotFoundException ex){
+            req.setAttribute("noUser", true);
+            req.getRequestDispatcher("/auth.jsp").forward(req,resp);
         }
+        resp.sendRedirect("/");
     }
 }
 

@@ -9,6 +9,10 @@ import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import javax.servlet.http.HttpSessionBindingEvent;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,11 +43,28 @@ public class Listener implements ServletContextListener,
     // HttpSessionListener implementation
     // -------------------------------------------------------
     public void sessionCreated(HttpSessionEvent se) {
-        /* Session is created. */
+        String URL = "jdbc:mysql://localhost/testservlet?serverTimezone=UTC";
+        String USER = "root";
+        String PASSWORD = "5454136RbHbKk";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(URL,USER,PASSWORD);
+            se.getSession().setAttribute("connection", connection);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void sessionDestroyed(HttpSessionEvent se) {
-        /* Session is destroyed. */
+        Connection connection = (Connection) se.getSession().getAttribute("connection");
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     // -------------------------------------------------------
