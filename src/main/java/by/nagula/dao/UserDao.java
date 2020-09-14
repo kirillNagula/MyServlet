@@ -13,5 +13,4 @@ public interface UserDao {
     void removeById(long id);
     boolean containsById(long id);
     boolean containsByLogin(String login);
-
 }
