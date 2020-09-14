@@ -17,9 +17,6 @@
     password=<input type="text" name="password" maxlength="20" minlength="2" required/>
     <button>Отправить</button>
 </form>
-    <c:if test="${requestScope.noUser}">
-        <br>
-        Не верный имя пользователя или пароль!
-    </c:if>
+   ${requestScope.noUser}
 </body>
 </html>

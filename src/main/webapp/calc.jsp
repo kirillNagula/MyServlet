@@ -12,6 +12,7 @@
     <title>Calculation</title>
 </head>
 <body>
+    <a href="/">Main</a>
     <form action="/calculation" method="post">
         значение1 <input type="text" name="num1">
         значение2 <input type="text" name="num2">

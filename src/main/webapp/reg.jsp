@@ -18,10 +18,6 @@
     name=<input type="text" name="name"/>
     <button>Отправить</button>
 </form>
-<c:if test="${requestScope.notUnique}">
-    <br>
-    Пользователь уже существует.
-    <a href="/auth"> Authorization</a>
-</c:if>
+${requestScope.notUnique}
 </body>
 </html>

@@ -1,6 +1,9 @@
 package by.nagula.listener;
 
+import by.nagula.entity.Operation;
 import by.nagula.entity.User;
+import by.nagula.service.OperationService;
+import by.nagula.service.OperationServiceImpl;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -43,6 +46,7 @@ public class Listener implements ServletContextListener,
     // HttpSessionListener implementation
     // -------------------------------------------------------
     public void sessionCreated(HttpSessionEvent se) {
+        se.getSession().setAttribute("list", new ArrayList<>());
         String URL = "jdbc:mysql://localhost/testservlet?serverTimezone=UTC";
         String USER = "root";
         String PASSWORD = "5454136RbHbKk";

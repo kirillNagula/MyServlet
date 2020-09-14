@@ -20,6 +20,7 @@
         <a href="/calculation">Calculation</a>
         <a href="/hist">History</a>
         <a href="/account">Account</a>
+        <a href="/operations">List</a>
     </c:if>
     <c:if test="${sessionScope.user == null}">
         <a href="/auth">Authorization</a>
